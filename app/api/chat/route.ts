@@ -1,10 +1,10 @@
 import { initObservability } from "@/app/observability";
 import { StreamingTextResponse } from "ai";
-import { ChatMessage, MessageContent, OpenAI } from "llamaindex";
+import { ChatMessage, MessageContent, OpenAI, Ollama, Document, VectorStoreIndex, Settings } from "llamaindex";
 import { NextRequest, NextResponse } from "next/server";
 import { createChatEngine } from "./engine";
 import { LlamaIndexStream } from "./llamaindex-stream";
-
+import {llm} from "@/app/components/Custom";
 initObservability();
 
 export const runtime = "nodejs";
@@ -44,10 +44,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const llm = new OpenAI({
-      model: (process.env.MODEL as any) ?? "gpt-3.5-turbo",
-      maxTokens: 512,
-    });
+// Use Ollama LLM and Embed Model
+    Settings.llm = llm;
+    Settings.embedModel = llm;
 
     const chatEngine = await createChatEngine(llm);
 

@@ -1,5 +1,6 @@
 import {
-  serviceContextFromDefaults,
+  Ollama,
+  serviceContextFromDefaults, Settings,
   storageContextFromDefaults,
   VectorStoreIndex,
 } from "llamaindex";
@@ -8,6 +9,7 @@ import * as dotenv from "dotenv";
 
 import { CHUNK_OVERLAP, CHUNK_SIZE, STORAGE_CACHE_DIR } from "./constants.mjs";
 import { getDocuments } from "./loader.mjs";
+
 
 // Load environment variables from local .env file
 dotenv.config();
@@ -27,6 +29,7 @@ async function generateDatasource(serviceContext) {
       persistDir: STORAGE_CACHE_DIR,
     });
     const documents = await getDocuments();
+    console.log(`Number of documents: ${documents.length}.`);
     await VectorStoreIndex.fromDocuments(documents, {
       storageContext,
       serviceContext,
@@ -36,7 +39,13 @@ async function generateDatasource(serviceContext) {
 }
 
 (async () => {
+
+  const llm = new Ollama({ model: "mistral", temperature: 0.75 });
+
+  llm.baseURL = "http://192.168.11.138:11434"
   const serviceContext = serviceContextFromDefaults({
+    llm: llm,
+    embedModel: llm,
     chunkSize: CHUNK_SIZE,
     chunkOverlap: CHUNK_OVERLAP,
   });

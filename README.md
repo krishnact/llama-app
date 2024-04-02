@@ -12,12 +12,16 @@ Second, generate the embeddings of the documents in the `./data` directory (if t
 
 ```
 npm run generate
+# or if you need to debug
+npm --node-options --inspect-brk run generate
 ```
 
 Third, run the development server:
 
 ```
 npm run dev
+# or if you need to debug
+npm --node-options --inspect-brk run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

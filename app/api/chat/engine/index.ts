@@ -10,25 +10,35 @@ import { CHUNK_OVERLAP, CHUNK_SIZE, STORAGE_CACHE_DIR } from "./constants.mjs";
 
 async function getDataSource(llm: LLM) {
   const serviceContext = serviceContextFromDefaults({
-    llm,
+    llm:llm,
+    embedModel: llm,
     chunkSize: CHUNK_SIZE,
     chunkOverlap: CHUNK_OVERLAP,
   });
+
+
   const storageContext = await storageContextFromDefaults({
     persistDir: `${STORAGE_CACHE_DIR}`,
   });
 
-  const numberOfDocs = Object.keys(
-    (storageContext.docStore as SimpleDocumentStore).toDict(),
-  ).length;
+  const theDict = (storageContext.docStore as SimpleDocumentStore).toDict()
+  const numberOfDocs = Object.keys(theDict).length;
+
   if (numberOfDocs === 0) {
     throw new Error(
       `StorageContext is empty - call 'npm run generate' to generate the storage first`,
     );
+  }else{
+    console.log(`Total number of documents is: ${numberOfDocs}`)
+
+    Object.values(theDict).forEach((one, idx)=>{
+      console.log(`===================${idx}: ${one}`)
+    })
   }
   return await VectorStoreIndex.init({
-    storageContext,
-    serviceContext,
+    //nodes: [],
+    storageContext: storageContext,
+    serviceContext: serviceContext,
   });
 }
 
