@@ -8,7 +8,9 @@ First, install the dependencies:
 npm install
 ```
 
-Second, generate the embeddings of the documents in the `./data` directory (if this folder exists - otherwise, skip this step):
+Then change .env.example to have correct location of Ollama server and LlamaParseKey (LLAMA_CLOUD_API_KEY).
+
+Then, generate the embeddings of the documents in the `./data` directory (if this folder exists - otherwise, skip this step):
 
 ```
 npm run generate
@@ -16,7 +18,7 @@ npm run generate
 npm --node-options --inspect-brk run generate
 ```
 
-Third, run the development server:
+Then, run the development server:
 
 ```
 npm run dev

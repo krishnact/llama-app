@@ -31,9 +31,6 @@ async function getDataSource(llm: LLM) {
   }else{
     console.log(`Total number of documents is: ${numberOfDocs}`)
 
-    Object.values(theDict).forEach((one, idx)=>{
-      console.log(`===================${idx}: ${one}`)
-    })
   }
   return await VectorStoreIndex.init({
     //nodes: [],

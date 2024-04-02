@@ -40,9 +40,9 @@ async function generateDatasource(serviceContext) {
 
 (async () => {
 
-  const llm = new Ollama({ model: "mistral", temperature: 0.75 });
+  const llm = new Ollama({ model: process.env.OLLAMA_SERVER_MODEL, temperature: 0.75 });
 
-  llm.baseURL = "http://192.168.11.138:11434"
+  llm.baseURL = process.env.OLLAMA_SERVER
   const serviceContext = serviceContextFromDefaults({
     llm: llm,
     embedModel: llm,
